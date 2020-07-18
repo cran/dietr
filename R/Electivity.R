@@ -17,7 +17,7 @@
 #' The function takes two dataframes as input. The first argument, Diet, should be formatted as followed. Each row in the data frame should be a diet record. 
 #' The first column should contain the name of the record to be calculated. The second column should contain the name linking the consumed prey in Diet to that in Available (example, name of the different habitats), which will be described below.
 #' All remaining columns should contain the abundance or relative abundance of the prey in the diet. These columns should also be named so they can be matched to Those in Available. The second data frame, Available should be formatted similar to Diet where each row describes a unique record for available prey.
-#' The remaining columns should contain the abundance or relative abundance of the prey that are available to be consumed. These columns should also be named so they can be matched to Those in Diet. #' Users should define if their data is raw or relative abundance by using the Abundance argument. 
+#' The remaining columns should contain the abundance or relative abundance of the prey that are available to be consumed. These columns should also be named so they can be matched to Those in Diet. Users should define if their data is raw or relative abundance by using the Abundance argument. 
 #' Note that these indices rely on relative abundance data for calculations. While it is recommended to have input data as relative abundances, the function automatically will calculate relative abundances (which has no effect on data that are already in units of relative abundance).
 #'  
 #' Indices are bounded by the following values. Ivlev's, Strauss', and Jacobs' D, and Vanderploeg & Scavia's indices are bounded between -1 and 1, with items closer to -1 representing avoided items, 0 randomly feeding, and 1 preferential items.
@@ -27,8 +27,9 @@
 #' Finally, Chesson's index ranges between 0 and 1 and preference is typically assessed using 1/n, where n is the number of prey types. The value of 1/n represents random feeding while values 
 #' above and below 1/n represent preference and avoidance respectively. For Chesson's index, users can also specify if the available resources are 
 #' depleting, in which case the equation from case 2 of Chesson, 1983 is calculated. Note, this takes the log of (p-r)/p) and values of 0 or negatives will return NaN.
-#' @return List containing data frames for each electivity index selected. 
+#' @return Object of class Electivity which is a list containing data frames for each electivity index selected.
 #' @author Samuel Borstein
+#' @seealso \code{\link{PlotElectivity}}
 #' @examples
 #' #Load Electivity Data from Horn 1982
 #' data(Horn1982)
@@ -38,14 +39,19 @@
 #' Depleting = FALSE)
 #' @references
 #' Chesson, J. 1983. The estimation and analysis of preference and its relatioship to foraging models. Ecology 64:1297-1304.
+#' 
 #' Ivlev, U. 1961. Experimental ecology of the feeding of fish. Yale University Press, New Haven.
+#' 
 #' Jacobs, J. 1974. Quantitative measurement of food selection. Oecologia 14:413-417.
+#' 
 #' Manly, B. 1974. A model for certain types of selection experiments. Biometrics 30:281-294.
+#' 
 #' Strauss, R. E. 1979. Reliability Estimates for Ivlev's Electivity Index, the Forage Ratio, and a Proposed Linear Index of Food Selection. Transactions of the American Fisheries Society 108:344-352.
+#' 
 #' Vanderploeg, H., and D. Scavia. 1979. Two electivity indices for feeding with special reference to zooplankton grazing. Journal of the Fisheries Board of Canada 36:362-365.
 #' @export
 
-Electivity<-function(Diet, Available, Indices = c("ForageRatio","Ivlev","Strauss","JacobsQ","JacobsD","Chesson","VanderploegScavia"), LogQ = TRUE, Depleting = FALSE){
+Electivity <- function(Diet, Available, Indices = c("ForageRatio","Ivlev","Strauss","JacobsQ","JacobsD","Chesson","VanderploegScavia"), LogQ = TRUE, Depleting = FALSE){
   if(any(!colnames(Diet)[3:ncol(Diet)]%in%colnames(Available)[2:ncol(Available)]))stop('Items in Diet and in Available must be the same')
   if(any(!Diet[,2]%in%Available[,1]))stop('Some habitats in Diet and Available do not match. Check to make sure the occur in both data frames')
   OrgDat<-data.frame(matrix(ncol = 1+length(Available),nrow = nrow(Diet)))  
@@ -114,5 +120,6 @@ if (any(Indices=="Chesson")) {
   }
   ElectivIndices<-rapply(ElectivIndices, f=function(x) ifelse(is.infinite(x),NA,x), how="replace" )
   ElectivIndices<-rapply(ElectivIndices, f=function(x) ifelse(is.nan(x),NA,x), how="replace" )
+  class(ElectivIndices)<-"Electivity"
   return(ElectivIndices)
 }
