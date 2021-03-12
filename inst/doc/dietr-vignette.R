@@ -127,13 +127,12 @@ PlotElectivity(Electivity.Calcs = my.indices)
 data(Casaux1998)
 
 #Calculate all three diet indices (IOP, IRI, FQ), return the raw data, and all calculations.
-CompositeIndices(DietData = Casaux1998, Indices = c("IOP","IRI","FQ"), 
-    PercentNumber = 4, PercentOccurence = 3, PercentVolWeight = 5, ReturnRaw = TRUE, 
-    PercentOnly = FALSE)
+CompositeIndices(DietData = Casaux1998, Indices = c("IOP","IRI","FQ"), PercentNumber = 4, 
+  PercentOccurrence = 3, PercentVolWeight = 5, ReturnRaw = TRUE, PercentOnly = FALSE)
 
 #Calculate all three diet indices and return only the percent of the index
 CompositeIndices(DietData = Casaux1998, Indices = c("IOP","IRI","FQ"), PercentNumber = 4, 
-  PercentOccurence = 3, PercentVolWeight = 5, ReturnRaw = FALSE, PercentOnly = TRUE)
+  PercentOccurrence = 3, PercentVolWeight = 5, ReturnRaw = FALSE, PercentOnly = TRUE)
 
 #Calculate Feeding Quotient and return the raw data and the all calculations.
 CompositeIndices(DietData = Casaux1998, Indices = "FQ", PercentNumber = 4, 
