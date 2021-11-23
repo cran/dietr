@@ -3,8 +3,8 @@
 #' @return a list of length two, with two data frames. One containing the re-formatted diet items and their contributions and one containing the Taxonomy with species names.
 #' @description This converts diet data from rfishbase into a format usable with dietr.
 #' @details As of rfishbase 3.0, the package handles returning diet data differently than in previous versions. As currently implemented,
-#' rfishbase returns two different unjoined diet tables, one with the actualy diet items and their percent contribution in the diet, and another that 
-#' has the metadata for the diet record. This unfortunatley is a difficult format to work with and easily extract out species of interest. Additionally, in previous
+#' rfishbase returns two different unjoined diet tables, one with the actual diet items and their percent contribution in the diet, and another that 
+#' has the metadata for the diet record. This unfortunately is a difficult format to work with and easily extract out species of interest. Additionally, in previous
 #' versions you could specify species names or numbers and only return those of interest, the only function options in the current version
 #' are specifying a server. As such, if the function is run, it will return all diet data on the site, requiring users to subset out 
 #' those of interest for them. We have implemented in this function a way to join the tables for use as well as filter based on life history stage (if necessary).
@@ -19,8 +19,10 @@
 #' @export
 
 ConvertFishbaseDiet<-function(ExcludeStage=NULL){
-  items<-rfishbase::diet_items()
-  records<-rfishbase::diet()
+  items.raw<-as.data.frame(rfishbase::diet_items())#Read in FishBase diet item data
+  items <- items.raw[!is.na(items.raw$DietCode),]#remove records lacking DietCode ID
+  records.raw<-as.data.frame(rfishbase::diet())#Read in FishBase diet record info
+  records <- records.raw[!is.na(records.raw),]#remove records lacking DietCode ID
   merged.diets<-merge(items,records,by.x = "DietCode")
   if(is.null(ExcludeStage)){
     ConvertDat<-cbind.data.frame(merged.diets$DietCode,merged.diets$Species,merged.diets$FoodI,merged.diets$FoodII,merged.diets$FoodIII,merged.diets$Stage,merged.diets$DietPercent)
