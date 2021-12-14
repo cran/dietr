@@ -63,7 +63,7 @@ library(dietr)
 #  HMtax<-cbind.data.frame(HMdat$individual,paste(HMdat$lake,HMdat$year),HMdat$lake)
 #  #Name the data frame
 #  colnames(HMtax)<-c("Individual","Lake x Year","Lake (all years)")
-#  #To calculate trophic level for the entire species, add a vecotr to the data frame of
+#  #To calculate trophic level for the entire species, add a vector to the data frame of
 #  #the species name
 #  HMtax$species<-"Herichthys minckleyi"
 
@@ -109,10 +109,15 @@ library(dietr)
 #  HM.TL<-DietTroph(DietItems = HM.mat,PreyValues = PreyMat, PreyClass = "FoodItem",
 #    Taxonomy = HMtax, SumCheck = TRUE)
 
+## ---- eval=FALSE--------------------------------------------------------------
+#  data(Horn1982)# load data
+#  Horn1982$Consumed#See data for prey consumption
+#  Horn1982$Available#See data for available prey
+
 ## ---- eval=TRUE, echo=TRUE----------------------------------------------------
 my.indices <- Electivity(Diet = Horn1982$Consumed, Available = Horn1982$Available, 
   Indices = c("ForageRatio","Ivlev","Strauss","JacobsQ","JacobsD","Chesson",
-  "VanderploegScavia"),LogQ = TRUE, Depleting = FALSE)
+  "VanderploegScavia"),LogQ = TRUE, CalcAbundance = FALSE, Depleting = FALSE)
 
 ## ---- eval=TRUE, echo=FALSE, fig.height=6, fig.width=11, echo=TRUE------------
 PlotElectivity(Electivity.Calcs = my.indices, Indices = "VanderploegScavia", 
