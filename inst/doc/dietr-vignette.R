@@ -1,4 +1,4 @@
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  #1. Install 'devtools' if you do not already have it installed:
 #  install.packages("devtools")
 #  
@@ -13,37 +13,37 @@
 #  #remain on your system permanently.
 #  dev_mode(on=F)
 
-## ---- eval=TRUE, echo= TRUE---------------------------------------------------
+## ----eval=TRUE, echo= TRUE----------------------------------------------------
 library(dietr)
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  data(FishBasePreyVals)#Load the Fishbase trophic levels of prey items
 #  #Standardized trophic levels of prey items for elasmobranchs
 #  data(CortesPreyVals)#Load the Cortes (1992)
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  # Convert Fishbase Diet Data and exclude juvenile and larval records
 #  my.diets <- ConvertFishbaseDiet(ExcludeStage=c("recruits/juv.","larvae"))
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  #Remove Data for Epinephelus itajara
 #  my.diets$DietItems <- my.diets$DietItems[my.diets$DietItems$Species ==
 #    "Epinephelus itajara",]
 #  my.diets$Taxonomy <- my.diets$Taxonomy[my.diets$Taxonomy$Species ==
 #    "Epinephelus itajara",]
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  data(FishBasePreyVals)#load the FishBase prey values that are part of the dietr package
 #  #Calculate trophic level with DietTroph function
 #  my.TL<-DietTroph(DietItems = my.diets$DietItems,PreyValues = FishBasePreyVals,
 #  Taxonomy = my.diets$Taxonomy, PreyClass=c("FoodI","FoodII","FoodIII","Stage"),
 #    SumCheck = TRUE)
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  #Get some food item data from rfishbase
 #  my.food<-rfishbase::fooditems(c("Lutjanus apodus","Epinephelus itajara"))
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  #Convert FishBase food item data to a format usable for FoodTroph
 #  converted.foods<-ConvertFishbaseFood(my.food)
 #  #Calculate trophic level from food items
@@ -51,14 +51,14 @@ library(dietr)
 #    Taxonomy = converted.foods$Taxonomy,PreyClass=c("FoodI","FoodII","FoodIII","Stage"),
 #    Iter = 100, SE.Type = "TrophLab")
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  data(Herichthys)
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  #Subset out individuals with diet data
 #  HMdat<-Herichthys[Herichthys$total==100,]
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  #Make a data frame of the individuals, lake by year, and lake.
 #  HMtax<-cbind.data.frame(HMdat$individual,paste(HMdat$lake,HMdat$year),HMdat$lake)
 #  #Name the data frame
@@ -67,11 +67,11 @@ library(dietr)
 #  #the species name
 #  HMtax$species<-"Herichthys minckleyi"
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  HMdat<-HMdat[,c("individual","X.Gastrop","X.Insect","X.Fish","X.Zoopl","X.plants",
 #              "X.algae", "X.detritus")]
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  #Repeat the individual name the number of unique prey types (6)
 #  Inds<-rep(x = HMdat$individual, times=6)[order(rep(x = HMdat$individual, times=6))]
 #  #Repeat the number of food typed the length of the number of individuals
@@ -93,7 +93,7 @@ library(dietr)
 #  #Remove prey that do not contribute to diets
 #  HM.mat<-HM.mat[!HM.mat$Percent==0,]
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  #Create a empty data frame for prey values
 #  PreyMat<-as.data.frame(matrix(ncol = 3,nrow = 6))
 #  #Name the columns something useful
@@ -105,25 +105,25 @@ library(dietr)
 #  #Add in the SE of the prey
 #  PreyMat[,3]<-c(.58,.4,.8,.3,0,0)
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  HM.TL<-DietTroph(DietItems = HM.mat,PreyValues = PreyMat, PreyClass = "FoodItem",
 #    Taxonomy = HMtax, SumCheck = TRUE)
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  data(Horn1982)# load data
 #  Horn1982$Consumed#See data for prey consumption
 #  Horn1982$Available#See data for available prey
 
-## ---- eval=TRUE, echo=TRUE----------------------------------------------------
+## ----eval=TRUE, echo=TRUE-----------------------------------------------------
 my.indices <- Electivity(Diet = Horn1982$Consumed, Available = Horn1982$Available, 
   Indices = c("ForageRatio","Ivlev","Strauss","JacobsQ","JacobsD","Chesson",
   "VanderploegScavia"),LogQ = TRUE, CalcAbundance = FALSE, Depleting = FALSE)
 
-## ---- eval=TRUE, echo=FALSE, fig.height=6, fig.width=11, echo=TRUE------------
+## ----eval=TRUE, echo=FALSE, fig.height=6, fig.width=11, echo=TRUE-------------
 PlotElectivity(Electivity.Calcs = my.indices, Indices = "VanderploegScavia", 
   BarColor = c("Red","Purple","Black","Grey"))
 
-## ---- eval=TRUE, echo=TRUE, fig.height=6, fig.width=11------------------------
+## ----eval=TRUE, echo=TRUE, fig.height=6, fig.width=11-------------------------
 PlotElectivity(Electivity.Calcs = my.indices)
 
 ## -----------------------------------------------------------------------------
