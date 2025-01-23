@@ -1,6 +1,6 @@
 Package: dietr
-Version: 1.1.6
-Date: 2025-1-12
+Version: 1.1.6-1
+Date: 2025-1-23
 Title: Diet Estimated Trophic Levels
 Authors@R: person(given = c("Samuel", "R."),
 				  family = "Borstein",
@@ -18,8 +18,8 @@ VignetteBuilder: knitr
 URL: https://github.com/sborstein/dietr
 BugReports: https://github.com/sborstein/dietr/issues
 NeedsCompilation: no
-Packaged: 2025-01-12 19:24:46 UTC; Sam
+Packaged: 2025-01-23 20:14:17 UTC; Sam
 Author: Samuel R. Borstein [aut, cre]
 Maintainer: Samuel R. Borstein <sam@borstein.com>
 Repository: CRAN
-Date/Publication: 2025-01-13 14:10:12 UTC
+Date/Publication: 2025-01-23 20:50:02 UTC
